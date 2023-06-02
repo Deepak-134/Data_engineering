@@ -1,0 +1,475 @@
+SQL theroy questions:-
+	1) Types of constraints in SQL
+		- NOT NULL :- create table school (class varchar2(20) NOT NULL)
+		- UNIQUE :- create table school (class varchar2(20) UNIQUE)  -- UNIQUE constraint allows null values
+		- PRIMARY KEY :- create table school (class varchar2(30) PRIMARY KEY);
+		- FOREIGN KEY :- create table school (class varchar2(30) , teachers varchar2(40), CONSTRAINT tech_fk FOREIGN KEY (teach_id) REFERENCES teacher(teach_id));
+		  It is used to validate data in one table with data in another table. NULL values are allowed in Foreign Key columns.
+		- CHECK :- It is used to enforce conditions over the table.
+		  create table school (class varchar2(30) , teachers varchar2(40), CONSTRAINT CHECK (class LIKE '%_upper'));
+
+	2) DDL (auto commit):- create , drop , alter , truncate 
+	   DML (manual commit):- insert , update , delete, 
+	
+	3) Delete vs truncate
+		DELETE can remove one or more selected rows from a table, while TRUNCATE removes all rows from the table.
+		DELETE can be rolled back if used within a transaction, while TRUNCATE cannot be rolled back.
+		DELETE removes rows one by one, which can be slower for large tables, while TRUNCATE removes all rows at once, which is faster and more efficient.
+		Delete data can be recovered if not commited because , but Truncate data cannot be recovered because it auto-commits the changes.		
+		
+	4) union and union all
+		UNION and UNION ALL are two commands 
+		UNION removes duplicate records from the final result set, while UNION ALL includes all records, including duplicates.
+		UNION is slower than UNION ALL because it has to check for and remove duplicate records, while UNION ALL does not have to do this.
+		UNION requires that the number of columns and their data types be the same in all SELECT statements being combined, 
+		while UNION ALL does not have this requirement.
+				
+	5) rank and dense rank
+		Both RANK() and DENSE_RANK() functions are used to assign a ranking to rows within a query result set based on the value of one or more columns. 
+		However, the main difference between these two functions is how they handle ties.
+		The RANK() function assigns a unique rank to each distinct value in the result set. If two or more rows have the same value, they are assigned the same rank,
+		and the next rank is skipped. For example, if two rows have the same value and are assigned rank 3, the next row will be assigned rank 5 (skipping rank 4).
+		
+		On the other hand, the DENSE_RANK() function assigns a unique rank to each distinct value in the result set, but when there are ties, the same rank is 
+		assigned to each tied row, and the next rank is not skipped. This means that if two rows have the same value and are assigned rank 3, the next row will 
+		be assigned rank 4 (not skipping rank 4).
+	
+	6) Views in SQL ? Types and defination
+		Simple View:
+		A simple view is a virtual table that is created by defining a SELECT statement with a unique name. The view does not store any data, but rather acts 
+		as a window through which the data can be viewed. When a user queries a simple view, the query is executed against the underlying base tables.
+		Simple views are useful when you want to limit the amount of data that a user can access, or when you want to provide a simplified or 
+		customized view of the data.
+		
+		Materialized view :-
+		A materialized view in SQL is a database object that contains the results of a query that has been precomputed and stored in a table-like structure. 
+		Materialized views are used to improve the performance of database queries by reducing the amount of time required to compute the results.
+		Materialized views are especially useful for queries that require complex joins, aggregations, or calculations, as the results can be precomputed and 
+		stored for quick retrieval. They can also be used to cache the results of frequently executed queries, reducing the need for repeated expensive computations.
+	
+	7) SQL execution order
+			from
+			join
+			where
+			group by
+			having
+			select
+			distinct
+			orderby
+			limit
+
+	8) SQL optimization techniques :- 
+
+		select only the columns we need.
+		use limit clause to limit query result
+		avoid select distinct if possible (instead of distinct we can use groupby because distinct requires more processing power)
+		run queries in non busy hours
+		use CTE
+		use indexes
+		use inner join instead of other join if possible (inner join is faster than left join)
+		always order your join large table to small table (large table should be on left side)
+		avoid using corelated subquery (it checks each outer query record with inner query record)
+			
+	9) Fact table and dimension table :-
+		Fact table :- Fact tables store primary keys of dimension tables as foreign keys within the fact table. 
+		In a data warehouse, a fact table is a table that stores the measurements, metrics, or facts related to a business operation.
+		It is located at the center of a star or snowflake schema and is surrounded by dimension tables.
+		Dimension table :-
+		Dimension tables contain descriptions of the objects in a fact table and provide information about dimensions such as values, characteristics, and keys.
+		
+		We can perform arithmatic operations on fact table but we cannot do that in dimension table columns
+		fact table :- salary, year, profit    dimension table :- name, product name, customer name, product category
+		e.g., suppose we have a column prod_id in fact table , for it we can have a dimension table containing prod_name , stock, price, weight , etc, description
+		
+	10) Types of schema (star, snowflake, galaxy) :-
+		Schema :- In warehouse schema is nothing but the organization of how data is stored and how it relates to other data within the data warehouse.
+		Star schema :- all dimension table are connected to a central fact table
+		snowflake schema :- This data warehouse schema builds on the star schema by adding additional sub-dimension tables that relate to first-order dimension tables joined to the fact table. 
+		galaxy schema :- collection of star schema , Galaxy Schema uses multiple fact tables connected with shared normalized dimension tables. 
+			
+	11) What is normalisation ? Which schema is more normalized ?  What are the steps in data normalisation ?
+		Normalisation :- 
+		Normalization is used to remove redundant data from the database and to store non-redundant and consistent data into it.
+		Normalization is generally used where a number of insert/update/delete operations are performed and joins of those tables are not expensive.
+		
+		Denormalization :-
+		Denormalization is used to combine multiple table data into one so that it can be queried quickly.
+		Denormalization is used where joins are expensive and frequent queries are executed on the tables.
+		
+		The snowflake schema is a fully normalized data structure. Because they have sub dimension tables.
+
+	12) clustered and non-clustered index ?
+		Index gets automatically generated if the primary key and unique constraint are defined on the table. 
+		Clustered index :- clustered index has to maintain the physical order of the stored records according to the indexed column i.e. id. 
+						   Their can only be 1 clustered index per table.
+						   They do not consume extra storage as data is stored in ordered fashion. 
+		Non-clustered index :- Their can be more than 1 non-clustered index per table. Non-clustered indexes are stored in a separate place from the actual table 
+							   claiming more storage space. Clustered indexes are faster than non-clustered indexes since they don’t involve any extra lookup step.
+							   Non-clustered index shows the position of data in table to access it.
+							   
+	13) How handle null values in SQL ?
+		- IS NULL :- select * from table where name IS NULL;
+		- IS NOT NULL
+		- COALESCE(): The COALESCE() function takes unlimited parameters and returns the first non-null expression in a list. # COALESCE(email, phone, name)
+		- NVL :- select name , NVL(salary, 0) from table;     # NVL(col, if_null_value)
+		- NVL2 :- select name , NVL2(salary, 10, 100) from table      # NVL2()
+		- CASE WHEN :- CASE WHEN country IS NOT NULL THEN country
+							WHEN state IN ('maharashtra','gujarat') THEN 'INDIA'
+							ELSE 'NO COUNTRY'
+					   END as 'country_all'
+				
+	14) Slowly Changing Dimension (SDCs) in Data warehouse ?
+		Slowly Changing Dimensions (SCDs) are a concept in data warehousing that deal with how to handle changes to dimension data over time. 
+		In a data warehouse, dimensions represent the characteristics or attributes of the data being analyzed. These dimensions can change over time due 
+		to various reasons, such as updates, inserts, or deletions of dimension records.
+		Type 1 SCD: In this approach, no historical data is preserved, and any changes overwrite the existing dimension record.
+		Type 2 SCD: Type 2 SCDs preserve historical data by creating a new dimension record for each change. This typically involves adding a new row with 
+		a unique identifier (such as a surrogate key) and the updated attributes. 
+		Type 3 SCD: Type 3 SCDs maintain a limited amount of historical data by adding new columns to the dimension table to store specific changes. 
+		Typically, these columns capture the previous and current values of specific attributes.
+		
+	15) Temporary tables ?
+		Temporary tables in SQL are a type of database object that allow you to store and manipulate intermediate or temporary data within a session.
+		Temporary tables are specific to a particular session or connection. They are created and used within a session and are automatically dropped at the end of the session or when explicitly dropped by the user.
+		Temporary tables are useful when you need to store intermediate results or perform complex multi-step calculations.
+		
+		CREATE TEMPORARY TABLE temporary_table_name 
+		SELECT * FROM original_table_name;
+				
+	16) Stored procedures ? Types of stored procedures ?
+		Stored procedures are a feature in SQL that allow you to group and store a collection of SQL statements as a reusable program in the database.
+		
+	17) Triggers ? Types of triggers ?
+		trigger is a special type of stored procedure that automatically executes in response to specific events or actions occurring in the database. 
+		These events can include data modifications (such as inserting, updating, or deleting records) or database operations (such as creating or altering tables).
+		Triggers are commonly used to enforce data integrity, maintain consistency, and automate certain tasks within database.
+		Types :- DDL triggers :- 
+				 DML triggers :-
+				 LOGON trigger :- Logon triggers are fires in response to a LOGON event. The LOGON event occurs when a user session is generated with an SQL Server 
+								  instance, which is made after the authentication process of logging is completed but before establishing a user session.
+	18) Local variable and global variable in sql ?
+		In sql variables are used to store values temporarly during execution of a script or a batch of statement. They are divided into 2 types :
+		Local variable :- Local variables are declared and used within a specific block of code, such as a stored procedure, function, or batch of statements. 
+						  They are only accessible within the block in which they are defined.
+						  DECLARE @myVariable INT;
+						  SET @myVariable = 10;
+   						  SELECT @myVariable;
+		Global variable :- Global variables are declared at the database level and can be accessed across multiple blocks of code, including stored procedures, 
+						   functions, or different batches of statements within the same database.
+	19) difference between delete and truncate (why truncate cannot be rolledbacked)
+		
+		
+		
+why cannot rolledback DDL commands
+union , unionall , intersect
+set operators in SQL
+what is analytic functions 
+views and why we use views.
+rowid and rownum
+varchar vs varchar2 (why varchar2 if varchar is there)
+
+		
+Queries :-
+
+1) Write sql query to find 3rd highest salary from the table (use windows function)
+	select * from
+	(select *, dense_rank() over(order by salary desc) as dense_rank
+	from table)
+	where dense_rank = 3;
+	
+2) Write sql query to find 3rd highest salary from the table (without using windows function)
+	select * from 
+	(select distinct salary from table
+	order by salary desc
+	limit 3)
+	order by salary asc
+	limit 1;
+
+3) write sql query to find highest salary in each department 
+		emp                              dept 
+		id name salary dept_id         id  dept_name
+		1  joe  70000   1               1   IT
+		2  jeem 90000   1               2   SALES
+		3  henry 80000  2
+		4  sam  60000   2
+		5  max  90000   1
+
+		---->  Output
+		Department Employ salary
+		IT         max    90000
+		IT         jeem   90000
+		SALES      Henry  80000
+
+Sol :- 
+
+   select department, emp1.name, emp1.salary from
+   (select  emp1.* , dept.dept_name as department, dense_rank() over(partition by dept.dept_name order by emp1.salary desc) as dn
+   from emp1 left outer join dept 
+   on emp1.dept_id = dept.id)
+   where dn = &N;
+   
+4) Write sql query to find duplicate records from table.
+			country
+		
+			india
+			england
+			india
+			pakistan
+	        england
+
+Sol :-  select country
+		from table
+		group by country having count(*) > 1
+		
+		Can we use where clause here :- No, in where clause we cannot use aggrigate function but after having clause we can use aggrigate function
+		
+5) Delete duplicate records from table.
+
+id     name
+1		aa
+2		bb
+3		aa
+
+Sol :- 	delete from table
+		where rowid not in
+		(select max(rowid) from table group by id, name ) 
+
+If there is no concept of rowid like in MySQL then,
+		alter table emp add constraint unique(id, name)
+		
+		create table emp2 as select distinct id, name from emp;
+
+what is rowid ?
+
+6) Find employ and its manager name
+		Input                               Output
+		empid name   manager_id        empname   managername
+		1     vikas  3                 vikas     yash
+		2     pooja  1          ---->  pooja     vikas
+		3     yash   2                 yash      pooja
+
+Sol :-  select t1.name as empname, t2.name as managername
+	    from tab t1 inner join tab t2
+		on t1.manager_id = t2.empid;
+		
+7) Input                  Output
+   id teams              
+   1  India              India Vs Pakistan
+   2  Pakistan    -----> India Vs srilanka
+   3  srilanka           Pakistan Vs srilanka
+   
+Sol :-  select t1.id||" Vs "||t2.id as matches
+		from table t1 join table t2
+		on t1.id < t2.id
+		
+Note :- If in some problems id column not given , then generate row_number column , like
+
+colour
+Red
+Green
+Yellow
+
+with a as		
+(select color, row_number() over(order by rownum) as rn from table)
+
+select a1.colour || "--" ||a2.colour
+from a a1 join a a2
+on a1.rn < a2.rn
+
+
+8) Input                        Output
+
+	gender  marks                     
+							   gender marks
+	male    100                M       370
+	men     80                 F       200
+	boy     90  ------->
+	man     100
+	women   20
+	female  100
+	girl     80
+
+Sol :-  select G, sum(marks)
+		(select gender, marks, case
+							   when gender in ('male','men','boy','man') then 'M'
+							   else 'F'
+							   End as G
+		from table)
+		group by G;
+		
+9) What is the Number of records in output when use inner join and left join and right join to join
+   this 2 tables
+
+		TableA    TableB
+		1         1 
+		1         1
+		1         2
+				  3
+		
+Sol :- inner join
+		1	1
+		1	1
+		1	1
+		1	1
+		1	1
+		1	1
+		
+		left join
+		1	1
+		1	1
+		1	1
+		1	1
+		1	1
+		1	1
+		
+		right join
+		1	1
+		1	1
+		1	1
+		1	1
+		1	1
+		1	1
+		2	null
+		3	null
+		
+10) What is the Number of records in output when use inner join and left join and right join to join
+	this 2 tables
+ 
+		TableA      TableB
+		1           1 
+		1           1
+		1           2
+		null        3
+		4           null
+		5           null
+		
+Sol :- inner (6)
+	   1	1
+	   1	1
+	   1	1
+	   1	1
+	   1	1
+	   1	1
+
+   
+	   left join (9)
+	   1	1
+	   1	1
+	   1	1
+	   1	1
+	   1	1
+	   1	1
+	   null null
+	   4 	null
+	   5	null
+	   
+	   right join (10)
+	   1	1
+	   1	1
+	   1	1
+	   1	1
+	   1	1
+	   1	1
+	   2	null
+	   3	null
+	   null	null
+	   null	null
+	   
+Note :- 
+According to rule number 3rd of rdbms , null is not a value to compare but missing information
+
+Natural join :- In natural join we don't need to mention joining column it automatically finds the join column and perform join ,
+				if joining column is not available it performs cross join.
+
+
+table
+id
+1
+1
+1
+2
+3
+
+make it like below by sql 
+
+id
+1
+2
+3
+
+-->1)  create table a2 as select distinct id from a;
+
+-->2)  alter table a add UNIQUE (id)
+
+
+keep only unique records.
+
+2) Third highest salary using pandas, pyspark, sql  ######################################################
+# Pyspark ----
+window = Window.orderBy(desc("salary"))
+
+df = df.withColumn("rank", dense_rank().over(window)).filter("rank == 3") \
+	.select(col("salary")).show()
+
+# Pandas --------
+
+third_highest_salary = df['Salary'].sort_values(ascending=False).unique()[2]
+
+df = df[df['salary'] == third_highest_salary]
+
+# SQL ----------
+
+select * from
+(select distinct salary
+from table
+order by salary desc
+limit 3)
+order by salary
+limit 1;
+
+3) Department wise 3rd highest salary ######################################################
+# SQL
+
+select * from
+(select e.* , dense_rank() over(partition by dep order by salary desc) as rn
+from table)
+where rn = 3;
+
+select dep , max(salary)
+from table
+where salary not in
+(select distinct salary from table
+where dep = e.dep
+order by salary desc
+limit 2)
+group by dep;
+
+# Pyspark
+
+from pyspark.sql.window import Window
+from pyspark.sql.functions import dense_rank
+
+window = Window.partitionBy('department').orderBy('salary').desc()
+df.withColumn('dense_rank', dense_rank().over(window)).filter('dense_rank == 3')
+
+# Pandas
+			# removing duplicate dep, sal records
+df = df.drop_duplicates(subset=['dep','salary'])
+
+			# checking if dep has 3 distinct salary records or not
+unique = df.groupby('department')['salary'].nunique().reset_index()
+unique = unique[unique['salary'] >= 3 ]['dep']
+
+			# removing dep records which do not have more than or equal to 3 distinct records
+df = df[df['department'].isin(unique)]
+
+			# taking 3 max salary record from each group
+result = df.groupby('department')['salary'].nlargest(3).reset_index(level = 0)
+			
+			# taking min salary record as 3rd highest salary
+df.groupby('department')['salary'].min().reset_index()
+
+
+
+
+
