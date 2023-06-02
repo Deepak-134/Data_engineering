@@ -18,7 +18,7 @@ SQL theroy questions:-
 		Delete data can be recovered if not commited because , but Truncate data cannot be recovered because it auto-commits the changes.		
 		
 	4) union and union all
-		UNION and UNION ALL are two commands 
+		UNION and UNION ALL are two commands which are used to combine the result set of two or more queries.
 		UNION removes duplicate records from the final result set, while UNION ALL includes all records, including duplicates.
 		UNION is slower than UNION ALL because it has to check for and remove duplicate records, while UNION ALL does not have to do this.
 		UNION requires that the number of columns and their data types be the same in all SELECT statements being combined, 
@@ -60,15 +60,15 @@ SQL theroy questions:-
 
 	8) SQL optimization techniques :- 
 
-		select only the columns we need.
-		use limit clause to limit query result
+		select only the columns we need. (projection pushdown)
+		use limit clause to limit query result. 
 		avoid select distinct if possible (instead of distinct we can use groupby because distinct requires more processing power)
 		run queries in non busy hours
 		use CTE
 		use indexes
 		use inner join instead of other join if possible (inner join is faster than left join)
 		always order your join large table to small table (large table should be on left side)
-		avoid using corelated subquery (it checks each outer query record with inner query record)
+		avoid using corelated subquery (it checks each outer query record with each inner query record)
 			
 	9) Fact table and dimension table :-
 		Fact table :- Fact tables store primary keys of dimension tables as foreign keys within the fact table. 
@@ -89,6 +89,7 @@ SQL theroy questions:-
 			
 	11) What is normalisation ? Which schema is more normalized ?  What are the steps in data normalisation ?
 		Normalisation :- 
+		Normalisation divides a denormalised table in simpler fact and dimension tables.
 		Normalization is used to remove redundant data from the database and to store non-redundant and consistent data into it.
 		Normalization is generally used where a number of insert/update/delete operations are performed and joins of those tables are not expensive.
 		
@@ -99,24 +100,26 @@ SQL theroy questions:-
 		The snowflake schema is a fully normalized data structure. Because they have sub dimension tables.
 
 	12) clustered and non-clustered index ?
-		Index gets automatically generated if the primary key and unique constraint are defined on the table. 
+		Indexing is a optimisation technique in SQL, it reduces the data to be read from the table based on indexed column.
+		Index gets automatically generated if the primary key and unique constraint are defined on the table.
+		There are 2 types of index :-
 		Clustered index :- clustered index has to maintain the physical order of the stored records according to the indexed column i.e. id. 
 						   Their can only be 1 clustered index per table.
 						   They do not consume extra storage as data is stored in ordered fashion. 
-		Non-clustered index :- Their can be more than 1 non-clustered index per table. Non-clustered indexes are stored in a separate place from the actual table 
-							   claiming more storage space. Clustered indexes are faster than non-clustered indexes since they don’t involve any extra lookup step.
-							   Non-clustered index shows the position of data in table to access it.
+		Non-clustered index :- Their can be more than 1 non-clustered index per table. Non-clustered indexes are stored in a separate place from the actual table  
+				       claiming more storage space. Clustered indexes are faster than non-clustered indexes since they don’t involve any extra lookup step.
+				       Non-clustered index shows the position of data in table to access it.
 							   
 	13) How handle null values in SQL ?
 		- IS NULL :- select * from table where name IS NULL;
 		- IS NOT NULL
 		- COALESCE(): The COALESCE() function takes unlimited parameters and returns the first non-null expression in a list. # COALESCE(email, phone, name)
-		- NVL :- select name , NVL(salary, 0) from table;     # NVL(col, if_null_value)
-		- NVL2 :- select name , NVL2(salary, 10, 100) from table      # NVL2()
+		- NVL :- select name , NVL(salary, 0) from table;     # NVL(col, if_null)
+		- NVL2 :- select name , NVL2(salary, 10, 100) from table      # NVL2(col, if_not_null, if_null)
 		- CASE WHEN :- CASE WHEN country IS NOT NULL THEN country
-							WHEN state IN ('maharashtra','gujarat') THEN 'INDIA'
-							ELSE 'NO COUNTRY'
-					   END as 'country_all'
+				    WHEN state IN ('maharashtra','gujarat') THEN 'INDIA'
+			       ELSE 'NO COUNTRY'
+			       END as 'country_all'
 				
 	14) Slowly Changing Dimension (SDCs) in Data warehouse ?
 		Slowly Changing Dimensions (SCDs) are a concept in data warehousing that deal with how to handle changes to dimension data over time. 
