@@ -1,1 +1,24 @@
+Q.) Scope and namespaces in python ?
+	Namespaces are containers that hold names and objects, while scope defines the visibility and accessibility of names within a program. 
+	Namespaces help organize names and avoid naming conflicts, while scope determines where a name can be referenced and accessed. 
+	Namespaces and scope work together to provide a structured way to manage names and objects in Python programs.
 
+Q.) Scope in python ?
+	Scope refers to the visibility and accessibility of names (variables, functions, objects) within a program.
+	It defines the region of the code where a particular name can be referenced.
+	Scopes determine the lifetime and accessibility of names and manage the binding of names to objects.
+	Python has local scope, global scope, and built-in scope.
+	Scopes define the rules for resolving names during runtime, determining which namespace to search for a name.
+	Python follows the LEGB rule for name resolution: Local, Enclosing, Global, Built-in.
+
+Q.) Namespaces in Python ?
+	In Python, a namespace is a system that maps names (identifiers) to objects. It serves as a container for holding variables, functions, classes, and 
+	other objects. Namespaces help organize and avoid naming conflicts within a program.
+	Three types :- local namespace (It includes name defined at function level like variable, etc), 
+				         global namespace (It includes names defined at the module level, such as global variables, functions, and classes.)
+				         Built-in Namespace (The built-in namespace contains the names of all the built-in functions, classes, and exceptions provided by Python itself. 
+									   These names, such as print(), len(), int(), etc., are available in any Python program without the need for explicit imports.)
+	When a name is referenced in Python, the interpreter first searches for it in the local namespace. If the name is not found, it then looks in the global 
+	namespace. Finally, if the name is still not found, it searches in the built-in namespace. This process is known as the "namespace resolution" or "name lookup" process.
+
+Q.) 
