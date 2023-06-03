@@ -21,4 +21,37 @@ Q.) Namespaces in Python ?
 	When a name is referenced in Python, the interpreter first searches for it in the local namespace. If the name is not found, it then looks in the global 
 	namespace. Finally, if the name is still not found, it searches in the built-in namespace. This process is known as the "namespace resolution" or "name lookup" process.
 
-Q.) 
+Q.) What is PEP8 in python
+--> PEP 8, sometimes spelled PEP8 or PEP-8, is a document that provides guidelines and best practices on how to write Python code.
+	The primary focus of PEP 8 is to improve the readability and consistency of Python code.
+
+Q.) Explain thread in python?
+--> Threads in Python are a way to achieve parallelism or concurrency by allowing multiple tasks or functions to execute concurrently within a single process. 
+	Python provides a built-in threading module to work with threads.
+	
+	import threading
+	import time
+	
+	def myfunc(var):
+		print(f'my name is {var}')
+		time.sleep(10)
+		print('func ended')
+	
+	if '__name__' = '__main__':
+		print('main started')
+		thread = threading.Thread(target = myfunc, args = ['deepak'])
+		thread.start()
+		print('main ended')
+
+Q.) what is decorator in python?
+-->  They are used to edit or make changes in output of a function without altering the code of function.
+
+Q.) Private and Public variable ?
+-->  	 Public Variables: By convention, variables that are intended to be accessed and used by other parts of the program are typically declared as public. 
+	 In Python, public variables are usually named in lowercase or lowercase with underscores (snake_case). They are accessible from outside the class or module.
+	 	 
+	 Private Variables (Convention): Although there are no strict private variables in Python, it is a common convention to prefix variables with a single 
+	 underscore _ to indicate that they are intended for internal use within a class or module. This serves as a hint to other developers that the variable 
+	 should not be accessed directly from outside the class or module.
+
+
