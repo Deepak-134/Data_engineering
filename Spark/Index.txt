@@ -1,5 +1,29 @@
 1) Project
 2) Spark Theory
+    -- What is Spark ? Spark Components ? Why use Spark ? Spark Vs Mapreduce
+    -- Spark Architecture ? How Spark executes the Jobs ?
+    -- What is Spark application, jobs, stages and tasks.
+    -- Fault tolerance features of spark ---> Cache, Persist and Checkpoint
+    -- Memory management in Spark
+    -- RDD ? Features ? Create RDD ? Lazy Evaluation ?
+    -- RDD Vs Dataframe Vs Dataset
+    -- Transformation ? Types with examples.
+    -- Actions ? Examples.
+    -- DAG & Lineage
+    -- Catalyst Optimiser
+    -- Optimisation techniques in spark.
+    -- Spark submit
+    -- Joins and different join statergies.
+    -- Broadcast join.
+    -- Data Skewness ? How does spark handle skewed data ?
+    -- OOM errors in Spark
+    -- StructType and StructField
+    -- (Map Vs Flatmap)  &  (reduceByKey Vs groupByKey)
+    -- Broadcast variable and Accumulators
+    -- AQE (Adaptive Query Execution)
+    -- SparkSession Vs SparkContext
+    -- Difference between Spark 1.0 , Spark 2.0 & Spark 3.0    
+    
 3) Pyspark -- Null handling
 4) Pyspark -- Read & Write data from various sources (csv,parquet,JSON,XML,ORC,JDBC,Hive)
 5) Pyspark transformations
