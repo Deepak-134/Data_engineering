@@ -1,0 +1,17 @@
+Usecase/Goal :-
+    The goal of this project is to identify patterns and trends in the data that can inform business strategies and provide actionable recommendations for the company. 
+    Help the business make data driven decisions by analyzing their data and providing insights that can improve sales, customer satisfaction and overall productivity. 
+    Also help the company optimize their inventory management, pricing, seasonal hiring, marketing compaigns, and other key areas of the business.
+
+Flow / Architecture of Project :-
+    The client data was stored in a On-premise Oracle database from where we needed to migrate the data to cloud into AWS S3 storage
+    in parquet file format which was done by AWS DMS (Database Migration Service). Once the data is migrated its schema is mapped into the Data Catalogue
+    into AWS Glue. After that we would perform data validation over the migrated data. Once the validation is complete we would
+    apply various preprocessing steps over the data as per business logic and write the cleaned and transformaed data to Snowflake 
+    warehouse with the help of AWS Glue which is a fully managed ETL service. Afterwords the snowflake data is used by a team of
+    BI developers to create dashboards and reports to be used for decision making by management personal.
+    
+    
+    
+    
+    
