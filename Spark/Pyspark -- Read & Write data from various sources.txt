@@ -1,0 +1,51 @@
+___Read and write csv file :-
+
+df = spark.read.format('csv').option('header',True).schema(Schema).load('path')
+		                     .option('delimiter','|').option('inferSchema',True)
+df.write.mode('overwrite').format('csv').option('header',True).option('delimiter',',').save('path')
+
+# mode('append') -- appends to existing file
+-------------------------------------------------------
+___Read and write parquet file :-
+
+df = spark.read.format('parquet').load('path')
+
+df.write.mode('overwrite').partitionBy('gender','salary').parquet('path')
+-------------------------------------------------------
+___Read and write from jdbc
+
+host='jdbc:mysql://pranavsql.cjamoxxbcrxr.ap-south-1.rds.amazonaws.com:3306/SYSTEM'
+
+df=spark.read.format('jdbc').option('url',host).option('user',myuser).option('password',mypassword).option('dbtable','health')
+.option('driver','com.mysql.jdbc.Driver').load()
+
+df.write.format('jdbc').option('url','asknl').option('user',user).option('password',pass).option('dbtable',table).option('driver','scc').save()
+-------------------------------------------------------
+
+___Write data to Snowflake
+
+res.write.mode('overwrite').format('net.snowflake.spark.snowflake').option('sfUrl',snowflake http url).option('sfUser',username)
+.option('sfPassword',password).option('sfDatabase',db name).option('sfSchema',schema name).option('sfWarehouse',cluster name)
+.option('dbtable','healthres').save()
+-------------------------------------------------------
+
+___Read and write Hive Table
+spark = SparkSession \
+    .builder \
+    .appName("SparkByExamples.com") \
+    .enableHiveSupport() \
+    .getOrCreate()
+
+df = spark.sql('select * from db.dep')
+OR
+df = spark.read.table('dep')
+
+# Save to Hive Table as Internal table
+
+df.write.mode('overwrite').saveAsTable('database.tablename')
+
+# Save to Hive Table as External table
+
+df.write.mode(Savemode.Overwrite).option('path','hdfs path').saveAsTable('database.tablename')
+
+-------------------------------------------------------
