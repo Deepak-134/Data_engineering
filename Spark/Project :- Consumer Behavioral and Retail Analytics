@@ -11,7 +11,152 @@ Flow / Architecture of Project :-
     warehouse with the help of AWS Glue which is a fully managed ETL service. Afterwords the snowflake data is used by a team of
     BI developers to create dashboards and reports to be used for decision making by management personal.
     
+    		AWS cloudwatch _____________			
+										|	       
+										|	        _________2) AWS Athena (Querying original data from s3 by using schema from data catalogue)
+										|		   |
+Oracle ---> DMS ---> s3(parquet) ---> AWS Glue --->|
+												   |_________3) Snowflake (Store required data such as India data and error data) (Run SQL queries on top of Snowflake)
+
     
+Domain :- Retail Domain
+ 
+Roles and responsibilities :- So my roles and responsibilities included
+	Development of ETL jobs using pyspark to be used in AWS glue,
+	Enhacement of already existing glue jobs as per client requirement,
+	Monitering the glue jobs and support if failure occurs. It was also my responsibility.
+	Also creating lambda functions and writing scripts using boto3 to trigger glue jobs and integrate various AWS services.
+	And my project required clean data, to be kept in snowflake warehouse so I performed data cleaning, mostly my responsibility was on data cleaning part, in which I performed various pre-processing steps on data which includes
+		- removing duplicates    #by dropDuplicate() or distinct()
+		- remove null values  
+		- replacing NULLS with some meaningfull values
+		- also adding some additional columns and renaming some existing columns
+		- droping some columns 
+		- removing special characters from columns
+        
+Tell me any automation you have done in Project or in Work :-
+ 
+Challenges faced :-
+    So, there was this one task , which I was assigned , in which I had to debug a glue job , whose role was to take data from s3 , apply some transformations like 
+    joins, withcolumns, dealing with nulls , and to put the data into snowflake warehouse where the data is distributed amoung two tables one was India region and 
+    one was error table. So, the issue we were facing was that the error table was getting all the records and India table was not getting any.
+    So, after some review, I tried running code block by block like to find out the issue but the data was large so it about 2.5 - 3 hrs to run the glue job.
+    So, after many tries ,  I come to know that after one of the joins the data would contain NULLS in the country column, It was a join with country dataframe which
+    was reffering a static csv file which contained name of all the countries . So after opening the file it was empty. Because of that we were getting NULLS in 
+    country column.
+    Code :- 200 - 250 lines
+    Also as DMS service was new for me in this project , I had to learn that from aws documentations, and youtube to used it on project.
+ 
+Table :- ProductCatalog, InventoryManagement, OrderProcessingSystem, SalesPerformanceMetrics, CategoryHierarchyMapping,  FinancialTransactionsHistory
+Columns :- TransactionID, InvoiceNumber, SalesChannel, SKU, CustomerSegment, QuantityReturned
+
+Team size :- There were 7 members in my team. 
+	Manager – 1
+	Team lead - 1
+	Data Engineer – 3
+	Solution architect – 1
+	Devops – 1
+
+Project Duration :- 1.5 years
+Daily data migration :- 25 GB
+Overall data migration :- maybe 2 - 2.5 Terabytes (1TB = 1024 GB). 
+Role :- Data engineer (Work in Development)
+
+Q.) Data Profiling ?
+	So I did not do any data profiling my work was mainly on data cleaning.
+ 
+Q.) Did you create data pipeline ?
+	I did not create data pipeline
+	We had a dedicated team of solution architect and cloud engineer for creating data pipeline and choosing the services.
+
+Q.) What is your engaging platform ?
+	Stand-up call :- In this call manager assignes us tasks and give specific deadline uptill he wants it done.
+	Sink-up call :- Give updates on the assigned tasks 
+	
+Q.) How long was your sprint.
+	We didn't have sprint , tasks were assigned to us on daily basis by our manager on teams and outlook 
+ 
+Q.) What are you currently doing in your project ?
+	The project is already finished and I am providing support in any case if any problem or task came up.
+	So, I do not have any major dependency over the project.
+
+Q.) What are the optimization techniques used in your project.
+	Cache and persist
+	using broadcast joins
+    avoid wide transformation
+    use parquet file
+	Coalesce
+	Avoiding wide transformations
+
+----------------------------------------------------------------------
+Questions on Project :-
+
+1) suppose data is updated in dms at the time of migration , how will you handle the updates that occured during the migration of data.
+---> We use DMS's Full load + CDC (Change data capture) option to migrate data.
+     To read ongoing changes from source engine AWS DMS uses engine specific APIs to read changes from source engines transaction logs,
+     From Oracle it reads REDO LOG files and sql-server it reads T LOG files
+     For updated records and new records after migration it creates new file in table directory in s3.
+     raw data --> cleaned data --> s3 curated data (combined)
+     
+2) suppose the data is not processed from last 4 days, and we have to process the unprocessed data from there how will you know which files are processed or not.
+---> i) create a table in redshift which will keep the record of the timestamp of every glue job that is run last time.
+        Whenever the next glue job runs it will parse the last timestamp from that table and then it will process the files after that timestamp.
+
+     ii) whenever the file is processed , copy that file in backup and after that delete that file from original location.
+    	So, all the files in raw bucket will be only unprocessed once.
+
+3) Why use Glue rather than EMR ? Disadvantages of using glue rather than EMR.
+---> You can think of EMR as "Hadoop framework with ecosystems(including spark)", and Glue as only "Spark ETL with Hive metastore capabilities".
+     It depends upon the usecase as :-
+     i) As AWS Glue is fully managed we do not need to worry about the underlying infrastructure and making a cluster as they are done by hive.
+        while in EMR we need to specify configuration and numbers of master and worker nodes for cluster.
+     ii) We use Glue if we want to run our regular ETL jobs using spark , whereas if we need to use more big data frameworks like pig, hadoop, hive, etc
+        then we need to use EMR.
+     iii) Also if we have an existing EMR cluster running in our organization then we can use it to run ETL jobs rather than using Glue.
+     
+---------------------------------------------------------------------
+Transformation in pyspark performed in project :-
+
+-removing duplicates
+df.dropDuplicate(['col1','col2'])
+
+df.distinct()
+
+-remove null values
+df.na.drop(how='any', subset=['col1','col2'])    #any -> if at least one null value then drop entire row,  # all -> if all nulls then drop record
+
+- replacing NULLS with some meaningfull values
+df.na.fill('value', 'col1')
+
+- adding some additional columns and renaming some existing columns
+df.withColumn('monthly_salary', col('yearly_salary')/12)
+
+df.withColumnRenamed('old_name','new_name')
+
+- droping some columns 
+df.drop('col1','col2')
+
+- selecting particular column
+df.select('col1',(col('col2')+1),col3)
+
+- removing special characters from columns
+df.
+
+- Merging data (joins == left, right, inner, full, leftsemi, leftanti)
+df1.join(df2, df1.col1= df2.col2,'inner').join(..........)
+
+df1.join(broadcast(df2), df1.col1= df2.col2, how = 'inner')   
     
-    
-    
+---------------------------------------------------------------------
+___Write data to Snowflake
+
+res.write.mode('overwrite').format('net.snowflake.spark.snowflake').option('sfUrl',snowflake http url).option('sfUser',username)
+.option('sfPassword',password).option('sfDatabase',db name).option('sfSchema',schema name).option('sfWarehouse',cluster name)
+.option('dbtable','healthres').save()
+
+___Read and write parquet file :-
+
+df = spark.read.format('parquet').load('path')
+
+df.write.mode('overwrite').partitionBy('gender','salary').parquet('path')
+---------------------------------------------------------------------
