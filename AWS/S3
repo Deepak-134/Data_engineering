@@ -1,1 +1,19 @@
-
+AWS S3 (Simple Storage Service)
+--------------------------------------
+-------------------------------------
+AWS S3 is a cloud object storage service provided by Amazon. It is more reliable, scalable, and secure than traditional than on-premises storage systems. 
+Important Features of S3 :-
+1) Storage classes
+2) Lifecycle management
+3) Versioning
+ 
+ ---- Storage classes                                      First byte latency
+    1) S3 Standard                                              miliseconds
+    2) S3 Standard - IA (Infrequent Access)                     miliseconds
+    3) S3 One Zone- IA (Infrequent Access)                      miliseconds
+    4) S3 Intelligent Tiering                                   miliseconds
+    5) S3 Glacier Instant Retrival                              miliseconds
+    6) S3 Glacier Flexible Retrival                             minutes -- hours
+    7) S3 Glaricer Deep Archive                                     hours
+    
+    
