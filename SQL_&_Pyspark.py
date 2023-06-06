@@ -16,4 +16,9 @@
    
    df.filter(len(df.content) > 15).select(df.tweet_id)
 
-4) 
+4) SELECT UNIQUE_ID, NAME
+   FROM Employees LEFT JOIN EmployeeUNI
+   ON Employees.ID = EmployeeUNI.ID
+
+   Employees.join(EmployeeUNI, Employees.id == EmployeeUNI.id, 'left').select(df['unique_id'],df['name'])
+   
