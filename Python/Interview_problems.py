@@ -49,4 +49,17 @@ out = ['a','n','7',..]
 for i in q_list:
 	output.append(i.strip)
 
-Q.)
+Q.) Convert Roman into integer.
+roman_to_int_dict = {'I': 1, 'V': 5, 'X': 10, 'L': 50, 'C': 100, 'D': 500, 'M': 1000}
+n = 'XXIV'
+prev = 0
+total = 0
+for i in n:
+    current = roman_to_int_dict[i]
+    if current > prev:
+        total = total+ current - 2*prev
+    else:
+        total = total+current
+    prev = current
+
+print(total)
