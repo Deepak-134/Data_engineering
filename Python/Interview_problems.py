@@ -63,3 +63,17 @@ for i in n:
     prev = current
 
 print(total)
+
+Q.) Sum of cubes in list
+
+from functools import reduce
+a = [[-2,3,4],[1,-2,-3],[-2,-5,3]]
+b = []
+for i in a:
+    for j in i:
+        if j < 0:
+            b.append(j*-1)
+
+res = list(map(lambda x : x**3,b))
+print(reduce(lambda x,y:x+y,res))
+
