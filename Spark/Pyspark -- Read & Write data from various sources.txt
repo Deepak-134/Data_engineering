@@ -6,6 +6,15 @@ df.write.mode('overwrite').format('csv').option('header',True).option('delimiter
 
 # mode('append') -- appends to existing file
 -------------------------------------------------------
+___Read and write excel file :-
+# First read excel file into pandas dataframe and then convert pandas df into pyspark
+import pandas as pd
+df = pd.read_excel('file_path', sheet_name='sheet1')
+df1 = spark.createDataFrame(df)
+--- OR ----
+import pyspark.pandas as ps
+spark_df = ps.read_excel('<excel file path>', sheet_name='Sheet1', inferSchema='').to_spark()
+-------------------------------------------------------
 ___Read and write parquet file :-
 
 df = spark.read.format('parquet').load('path')
