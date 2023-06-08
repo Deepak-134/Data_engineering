@@ -7,17 +7,15 @@ Important Features of S3 :-
 2) Lifecycle management
 3) Versioning
  
- ---- Storage classes                                      First byte latency
-    1) S3 Standard                                              miliseconds
-    2) S3 Standard - IA (Infrequent Access)                     miliseconds
-    3) S3 One Zone- IA (Infrequent Access)                      miliseconds
-    4) S3 Intelligent Tiering                                   miliseconds
-    5) S3 Glacier Instant Retrival                              miliseconds
-    6) S3 Glacier Flexible Retrival                             minutes -- hours
-    7) S3 Glaricer Deep Archive                                     hours
+ ---- Storage classes                                     
+    1) S3 Standard :- General purpose storage for active, with frequently accessed data with miliseconds access.                                           
+    2) S3 Standard - IA (Infrequent Access) :- Lower cost storage for data accessed monthly, with milisecond retrival.                    
+    3) S3 One Zone- IA (Infrequent Access) :- Performance of s3 standard-IA stored in a single AZ at 20% of the cost.                     
+    4) S3 Intelligent Tiering :- It moves objects between various storage classes by analysing their access patterns which leads to cost effectivness.           
+    5) S3 Glacier Instant Retrival :- Lowest cost storage for long-term archive data, with milisecond retrival. Ex., like digital data accessed per Quarter.
+    6) S3 Glacier Flexible Retrival :- Archive or backup data with secure, durable and low-cost storage, retrival speed in between minutes-hours.
+    7) S3 Glaricer Deep Archive :-  Lowest cost cloud storage for long-term archives at about $1 per TB/month. Retrival speed in hours.                   
     
-    
-
 Q> How to access S3 bucket without IAM roles ?
 ----->  First Create a bucket policy in Permissions tabs.
         OR Go to AWS Policy Generator to create policy as per required options.
