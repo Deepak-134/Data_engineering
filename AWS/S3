@@ -17,3 +17,30 @@ Important Features of S3 :-
     7) S3 Glaricer Deep Archive                                     hours
     
     
+
+Q> How to access S3 bucket without IAM roles ?
+----->  First Create a bucket policy in Permissions tabs.
+        OR Go to AWS Policy Generator to create policy as per required options.
+
+{
+    "Version": "2012-10-17",
+    "Id": "Policy1686206945351",
+    "Statement": [
+        {
+            "Sid": "Stmt1686206928243",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": "s3:*",
+            "Resource": "arn:aws:s3:::snowflakebigdata",
+            "Condition": {
+                "IpAddress": {
+                    "aws:SourceIp": "13.127.137.221/24"           # It is Public IP
+                }
+            }
+        }
+    ]
+}
+
+After that onto the linux server type -----> aws s3 ls snowflakebigdata --no-sign-request
+
+
