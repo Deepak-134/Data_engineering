@@ -414,8 +414,9 @@ id
 
 12) Third highest salary using pandas, pyspark, sql  ######################################################
 # Pyspark ----
-from pyspark.window import Window
-window = Window.orderBy(desc("salary"))
+from pyspark.sql.window import Window
+
+window = Window.orderBy(df.salary.desc())
 df = df.withColumn("rank", dense_rank().over(window)).filter(col('rank') == 3) \
        .select(col("salary")).show()
 
@@ -455,7 +456,7 @@ group by dep;
 from pyspark.sql.window import Window
 from pyspark.sql.functions import dense_rank
 
-window = Window.partitionBy('department').orderBy('salary').desc()
+window = Window.partitionBy('department').orderBy(df.salary.desc())
 df.withColumn('dense_rank', dense_rank().over(window)).filter(col('dense_rank') == 3)
 
 # Pandas
