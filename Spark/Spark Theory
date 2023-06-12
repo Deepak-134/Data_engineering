@@ -1,4 +1,4 @@
-1) Global Temporary View.
+Q> Global Temporary View.
 ---> Temporary views in Spark SQL are session-scoped and will disappear if the session that creates it terminates. If you want to have a temporary view that is shared among 
      all sessions and keep alive until the Spark application terminates, you can create a global temporary view. Global temporary view is tied to a system preserved database 
      global_temp, and we must use the qualified name to refer it, e.g. SELECT * FROM global_temp.view1
@@ -6,6 +6,15 @@
      df.createGlobalTempView('emp')
      df2 = spark.sql('select * from global_temp.emp')
 
-
+Q> What is PySpark Accumulator?
+---> Accumulators are write-only and initialize once variables where only tasks that are running on workers are allowed to update and updates from 
+     the workers get propagated automatically to the driver program. But, only the driver program is allowed to access the Accumulator variable using 
+     the value property.
      
+     # EX., To count items in rdd
+     accum = spark.sparkContext.accumulator(0)
+     rdd = spark.sparkContext.parallelize([1,2,3,4,5])
+     rdd.foreach(lambda x: accum.add(1))
+     print(accum)
       
+Q> 
