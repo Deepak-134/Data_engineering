@@ -1,7 +1,10 @@
 ___Read and write csv file :-
 
 df = spark.read.format('csv').option('header',True).schema(Schema).load('path')
-		                     .option('delimiter','|').option('inferSchema',True)
+	                     .option('delimiter','|').option('inferSchema',True)
+			     .option('dateFormat','yyyy-MM-dd')
+			     .option('mode','PERMISSIVE')   --- 'DROPMALFORMED' , 'FAILFASTs'
+
 df.write.mode('overwrite').format('csv').option('header',True).option('delimiter',',').save('path')
 
 # mode('append') -- appends to existing file
