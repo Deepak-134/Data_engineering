@@ -1,1 +1,66 @@
+AWS Glue :-
 
+AWS Glue is a fully managed extract, transform, and load (ETL) service provided by Amazon Web Services (AWS). 
+It is designed to simplify and automate the process of preparing and loading data for analytics, data warehousing, and other data-driven tasks.
+
+Key features of Glue:-
+1) Data Catalog :- It is a centralized metadata repository. 
+2) Data Crawling :- It automatically discovers and catalog metadata for various data sources like databases, structured , semi-structured and unstructured data.
+3) DynamicFrame :- It is a Glue specific dynamic frame on the top of spark dataframe which is used to perform advanced transformations, also it integrates with
+				   components such as data catalog to make it easier to load data from known data sources.
+				   DynamicRecord :- It represents a logical record within a DynamicFrame. It is like a row in a Spark DataFrame, except that it is 
+									self-describing and can be used for data that does not conform to a fixed schema.
+
+Q.) What is GlueContext and dynamic frame.
+	RDD is kind of unlabeled data, we usually work with a layer on top of that, which adds column labels. This layer on top is called a data frame - it offers 
+	a variety of data access mechanisms and manipulation options.
+	The third layer on top is the DynamicFrame. This is not a Spark construct, but something that is Glue specific.
+	
+	GlueContext :- GlueContext provides additional functionality or data handling APIs on the top of SparkContext. We are able to integrate various glue components
+				   because of glue specific libraries.
+	
+Q.) Where do you write your script ?
+	In Spark Script editor
+
+Q.) How to refer metadata from Data Catalog in glue while creating DynamicFrame ?
+	First we initialize a connection to our Spark cluster and get a GlueContext object. We can then use this GlueContext to read data from our data stores. 
+	The create_dynamic_frame.from_catalog uses the Glue data catalog to figure out where the actual data is stored and reads it from there.
+	
+	from awsglue.context import GlueContext
+	from awsglue.dynamicframe import DynamicFrame
+	from pyspark.context import SparkContext
+	
+	spark = SparkContext.getOrCreate()
+	glue = GlueContext(spark)
+	
+	# DynamicFrame
+		dy_df = glue.create_dynamic_frame.from_catalog(database = 'db2', table = 'employee')
+		
+		dy_df = dy_df.rename_field('id', 'employee_id')
+		
+		# Write it out in Parquet
+		glue.write_dynamic_frame.from_options( frame=dy_output, connection_type="s3", connection_options={"path": output_dir}, format = "parquet")
+		
+	# convert glue dynamicframe to spark dataframe for further transformations
+	sp_df = dy_df.toDF().withColumnRenamed('id','employee_id')
+	
+	# convert dataframe to DynamicFrame.
+	dy_df = DynamicFrame.fromDF(sp_df, glue, 'name')
+	
+Q.) What is a classifier in Glue crawler ?
+	To deduce the format and schema of your data, a crawler runs any custom classifiers you specify.
+	A schema is created using the first custom classifier that correctly recognizes your data structure.
+	Crawler access the data using connection attributes, and populate the data catalog.
+	
+Q.) How to import data from the existing Apache Hive Metastore to the AWS Glue Data Catalog?
+	Simply execute an ETL process that reads data from your Apache Hive Metastore, exports it to Amazon S3, and imports it into the AWS Glue Data Catalog.
+	
+Q.) What is AWS Glue DataBrew?
+	AWS Glue DataBrew is a visual data preparation solution that allows data analysts and scientists to prepare without writing code using an interactive, 
+	point-and-click graphical interface.
+
+Q.) What is AWS Glue Elastic Views?
+	It creates materialized views from various data sources. It keeps the view up-to-date with the changes in data sources.
+    
+Q.) How to use pandas library in glue ?
+    We can add libraries in .egg or .whl format. Put them in s3 location and then Go to glue job ----> Job details ----> Libraries ----> Python library path (write with comma seperated).
