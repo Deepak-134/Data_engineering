@@ -1,0 +1,16 @@
+EMR (Elastic MapReduce)
+
+Features of EMR:-
+    1) EMR Step :- We can submit jobs and interact directly with the data frameworks that is installed in the Amazon EMR cluster. 
+    Alternatively, we can submit one or more ordered steps to an Amazon EMR cluster. Each step is a unit of work that contains instructions to 
+    manipulate data for processing by the data framework installed on the cluster.
+    
+    Cluster ----> Step ----> Add Step ----> Name: Copy Data from S3 to HDFS using S3DistCp
+                                            JAR location: command-runner.jar
+                                            Arguments: s3-dist-cp --src=s3://aws-bda-demo/datasets/ --dest=hdfs:///datasets
+                                            Action on failure: Continue
+                                            
+    Cluster ----> Step ----> Add Step ----> Name: PySpark Create Sales View
+                                            JAR location: command-runner.jar
+                                            Arguments: spark-submit s3://aws-bda-demo/scripts/etl.py
+                                            Action on failure: Continue                                         
