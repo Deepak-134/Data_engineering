@@ -1,0 +1,8 @@
+VPC (Vertual Public Cloud)
+    -- Subnet (Public and Private)
+    -- Internet Gateways
+    -- NAT Gateways
+    -- Route tables
+    -- Elastic IPs
+    -- Network ACLs
+    -- Security groups
