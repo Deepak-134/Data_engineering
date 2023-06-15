@@ -44,11 +44,8 @@ Q> Memory and Disk in Lambda.
 Environment variable are key-value pairs, we can dynamically pass these variables to your function’s runtime. In turn, you enable the code to behave differently based on the values set at execution time.
 We can get our code to give different outputs without changing the code.
 ```python
-# To retrive the env variables
+# To retrive the env variables in Python
 import os
 region = os.environ['AWS_REGION']
 ```
-
-
-
-
+Ex:- jdbcURL, dbname, user, password, file_path, etc.
