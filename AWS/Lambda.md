@@ -19,7 +19,7 @@ Create a zip file for the layer that will be uploaded :-  cd aws-layer
 Add the layer using Consol.
       
 Q> What is max execution time in lambda ?
------> 900 seconds (15 minutes)
+*  900 seconds (15 minutes)
 
 Q> Memory and Disk in Lambda.
 -----> The disk space (ephemeral) is limited to 512 MB.
