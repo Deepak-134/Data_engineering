@@ -22,9 +22,9 @@ Q> What is max execution time in lambda ?
 *  900 seconds (15 minutes)
 
 Q> Memory and Disk in Lambda.
------> The disk space (ephemeral) is limited to 512 MB.
-       The default deployment package size is 50 MB.
-       The memory range is from 128 to 3008 MB.  **NEW UPDATE** ===> memory range from 128 to 10,240 MB (10GB)
+   * The disk space (ephemeral) is limited to 512 MB.
+   * The default deployment package size is 50 MB.
+   * The memory range is from 128 to 3008 MB.  **NEW UPDATE** ===> memory range from 128 to 10,240 MB (10GB)
 
 ## Synchronous & asynchronous functions/events/invocation
 ### Synchronous functions
