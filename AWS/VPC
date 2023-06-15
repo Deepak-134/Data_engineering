@@ -1,8 +1,41 @@
-VPC (Vertual Public Cloud)
-    -- Subnet (Public and Private)
-    -- Internet Gateways
-    -- NAT Gateways
-    -- Route tables
-    -- Elastic IPs
-    -- Network ACLs
-    -- Security groups
+VPC (Vertual Public Cloud) :- An Amazon VPC (virtual private cloud) is an isolated section of the AWS cloud where you can provision your infrastructure.
+    
+   Subnet (Public and Private):- A subnet or subnetwork is a logical sub-division of an IP network into multiple smaller networks.
+                                 In AWS a subnet is a component(A range of IP addresses) within your VPC to provide a logical grouping of resources. 
+                                 A subnet can exist within one and only one Availability Zone (1 Subnet == 1 Availability Zone). 
+                                 You can launch AWS resources into any selected subnet.
+           
+           Public Subnet:- A public subnet is used to launch resources that must be connected to the internet for example Web Application Server. 
+           A public subnet associated with the main route table directs the subnet’s traffic to the Amazon VPC’s Internet Gateway (IGW).
+
+           Private Subnet:- A Private subnet is used to launch resources that don’t need an internet connection. It secures resources such as database 
+           instances from direct access to the Internet. A private subnet associated with the route table that does not direct the subnet’s traffic 
+           to the Amazon VPC’s Internet Gateway (IGW).
+    
+   Internet Gateways:- For a subnet to be accessible to the internet an AWS internet gateway is required. An internet gateway allows internet 
+                       traffic to and from your VPC.
+                       In order to make subnet public, add a route to your subnet’s route table that directs internet-bound traffic to the internet gateway.
+                       You can associate exactly one Internet Gateway with a VPC. Internet Gateway is not Availability Zone specific.
+    
+   NAT Gateways:- NAT Gateway (NGW) is a managed Network Address Translation (NAT) service.
+                  NAT Gateway does something similar to Internet Gateway (IGW), but it only works one way: Instances in a private subnet can connect to 
+                  services outside your VPC but external services cannot initiate a connection with those instances.
+                  NAT gateway replaces the source IP address of the instances with the IP address of the NAT gateway.
+                  
+                  A Nat Gateway enables instances in private subnets to connect to the internet. The Nat gateway must be deployed in the public 
+                  subnet with an Elastic IP. Once the resource is created, a route table associated with the the private subnet needs to point 
+                  internet-bound traffic to the NAT gateway.
+    
+   Route tables:- A Route table specifies which external IP address are contactable from a subnet or internet gateway. 
+                   Also for IPs within the subnet to access each other. EX.>
+   
+   Elastic IPs
+   Network ACLs
+   Security groups:- A security group acts as a virtual firewall for your instance to control incoming and outgoing traffic.
+                         Both instances in the private and public subnet require this security group.
+
+Q> Difference between Internet Gateway and NAT Gateway.
+    Internet Gateway (IGW) allows instances with public IPs to access the internet.
+    NAT Gateway (NGW) allows instances with no public IPs to access the internet.
+    
+    
