@@ -39,3 +39,14 @@ Q> Memory and Disk in Lambda.
 * A separate process reads events from the queue and sends them to your function.
 * **— invocation-type event**
 * Ex:- S3 bucket write triggers a lambda function.
+
+## Environment variables in Lambda
+Environment variable are key-value pairs, we can dynamically pass these variables to your function’s runtime. In turn, you enable the code to behave differently based on the values set at execution time.
+We can get our code to give different outputs without changing the code.
+     # To retrive the env variables
+     import os
+     region = os.environ['AWS_REGION']
+
+
+
+
