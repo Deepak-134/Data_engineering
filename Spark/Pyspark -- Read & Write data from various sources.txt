@@ -1,3 +1,15 @@
+PySpark Saving modes:-
+PySpark DataFrameWriter also has a method mode() to specify SaveMode; the argument to this method either takes overwrite, append, ignore, errorifexists.
+
+overwrite – mode is used to overwrite the existing file
+
+append – To add the data to the existing file
+
+ignore – Ignores write operation when the file already exists
+
+errorifexists or error – This is a default option when the file already exists, it returns an error
+
+-------------------------------------------------------
 ___Read and write csv file :-
 
 df = spark.read.format('csv').option('header',True).schema(Schema).load('path')
@@ -60,4 +72,56 @@ df.write.mode('overwrite').saveAsTable('database.tablename')
 
 df.write.mode(Savemode.Overwrite).option('path','hdfs path').saveAsTable('database.tablename')
 
+-------------------------------------------------------
+
+___Read and write data in XML format
+
+XML is an extensible markup language that is used to represent structured data in a hierarchical format.
+PySpark provides support for reading and writing XML files using the spark-xml package, which is an external package developed by Databricks.
+Ex:- emp.xml
+
+<root>
+  <row>
+    <id>1</id>
+    <name>John</name>
+  </row>
+  <row>
+    <id>2</id>
+    <name>Jane</name>
+  </row>
+  <row>
+    <id>3</id>
+    <name>Jim</name>
+  </row>
+</root>
+
+# Read XML data
+
+df = spark.read \
+    .format('com.databricks.spark.xml') \
+    .option('rowTag','row') \                    # The rowTag option specifies the tag name that represents each row in the XML file.
+    .option('treatEmptyValuesAsNulls',True)      # Treats empty values as NULL
+    .load('emp.xml')
+
+# Write xml data
+
+df.select(struct("id", "name").alias("root")) \
+    .write \
+    .format('com.databricks.spark.xml') \
+    .option('rootTag', 'root') \                  #  The rootTag option specifies the tag name for the root element,
+    .option('rowTag', 'row') \
+    .save(xmlFile)
+    
+-------------------------------------------------------
+___Read and write data in JSON (Javascript Object Notation) format 
+
+# Read JSON data
+df = spark.read.format('json')
+		.schema(sch)                      # By default JSON reader inferSchema automatically , if you want to provide schema, use this option 
+		.option("multiline","true")       # To read json data with multiline row format (1 record consist of multiple lines in json file)
+		.option('dateFormat','YYYY-MMM-dd')     # Option to specify date format of source data
+		.load('emp.json')
+
+# Write JSON data
+df.write.format('json').save('path')
 -------------------------------------------------------
