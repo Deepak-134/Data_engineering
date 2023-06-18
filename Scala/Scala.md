@@ -2,7 +2,7 @@
 
 ## Declare Variables And Types
 
-   1) Immutable variables :- Variables whose value cannot be changed.
+    1) Immutable variables :- Variables whose value cannot be changed.
     val <Name of our variable>: <Scala type> = <Some literal>
     Ex. val empid: int = 100
         empid = 200 -------> It will throw error as variable is declared as immutable.
@@ -29,7 +29,8 @@
     
     5) Declare a variable with no initialization :- If you do not want to assign value to vaiable at declariation and assign later on then use '_' .
         var phone: string = _
-        phone = [9049619621]
+        phone = 9049619621
+    
     
     
     
