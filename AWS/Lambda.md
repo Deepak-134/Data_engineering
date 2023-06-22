@@ -1,8 +1,8 @@
 # Lambda
 
 ## Layers 
-A layer is a ZIP archive that contains libraries, a custom runtime, or other dependencies. 
-Layers let you install all the modules you need for your application to run.
+A layer is a ZIP archive that contains libraries, a custom runtime, or other dependencies. With layers, you can use libraries in your function without 
+needing to include them in your deployment package.
      
 Q> How to add layers ?
 * Firstly create directories :- mkdir -p aws-layer/python/lib/python3.7/site-packages
